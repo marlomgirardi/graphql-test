@@ -1,0 +1,184 @@
+# Comments in GraphQL are defined with the hash (#) symbol.
+
+# Define a new type 
+scalar Date
+
+enum UserTypes {
+  User
+  Organization
+}
+
+type User {
+  login: String
+  id: Int
+  node_id: String
+  name: String
+  bio: String
+  company: String
+  blog: String
+  location: String
+  email: String
+  avatar_url: String
+  gravatar_id: String
+  url: String
+  html_url: String
+  events_url: String
+  received_events_url: String
+  type: UserTypes
+  site_admin: Boolean @deprecated(reason: "Deprecated test.")
+  hireable: Boolean
+  public_repos: Int
+  public_gists: Int
+  followers: Int
+  following: Int
+  
+  gists: [Gist] @rest(url: "https://api.github.com/users/{login}/gists", type: "gists")        # gists_url: String
+
+  followingList: [User] @rest(url: "https://api.github.com/users/{login}/following")           # following_url: String
+  followersList: [User] @rest(url: "https://api.github.com/users/{login}/followers")           # followers_url: String
+
+  organizations: [Organization] @rest(url: "https://api.github.com/users/{login}/orgs")        # organizations_url: String
+
+  starred: [Repository] @rest(url: "https://api.github.com/users/{login}/starred")             # starred_url: String
+  repositories: [Repository] @rest(url: "https://api.github.com/users/{login}/repos")          # repos_url: String
+  subscriptions: [Repository] @rest(url: "https://api.github.com/users/{login}/subscriptions") # subscriptions_url: String
+
+  created_at: Date
+  updated_at: Date
+}
+
+type Repository {
+  id: ID!
+  node_id: String
+  name: String
+  full_name: String
+  owner: User
+  private: Boolean
+  html_url: String
+  description: String
+  fork: Boolean
+  url: String
+  forks_url: String
+  keys_url: String
+  collaborators_url: String
+  teams_url: String
+  hooks_url: String
+  issue_events_url: String
+  events_url: String
+  assignees_url: String
+  branches_url: String
+  tags_url: String
+  blobs_url: String
+  git_tags_url: String
+  git_refs_url: String
+  trees_url: String
+  statuses_url: String
+  languages_url: String
+  stargazers_url: String
+  contributors_url: String
+  subscribers_url: String
+  subscription_url: String
+  commits_url: String
+  git_commits_url: String
+  comments_url: String
+  issue_comment_url: String
+  contents_url: String
+  compare_url: String
+  merges_url: String
+  archive_url: String
+  downloads_url: String
+  issues_url: String
+  pulls_url: String
+  milestones_url: String
+  notifications_url: String
+  labels_url: String
+  releases_url: String
+  deployments_url: String
+  created_at: Date
+  updated_at: Date
+  pushed_at: Date
+  git_url: String
+  ssh_url: String
+  clone_url: String
+  svn_url: String
+  homepage: String
+  size: Int
+  stargazers_count: Int
+  watchers_count: Int
+  language: String
+  has_issues: Boolean
+  has_projects: Boolean
+  has_downloads: Boolean
+  has_wiki: Boolean
+  has_pages: Boolean
+  forks_count: Int
+  mirror_url: String
+  archived: Boolean
+  open_issues_count: Int
+  license: License,
+  forks: Int
+  open_issues: Int
+  watchers: Int
+  default_branch: String
+}
+
+type Gist {
+  url: String
+  forks_url: String
+  commits_url: String
+  id: ID
+  node_id: String
+  git_pull_url: String
+  git_push_url: String
+  html_url: String
+  files: [File],
+  public: Boolean,
+  created_at: Date
+  updated_at: Date
+  description: String
+  comments: Int,
+  user: String,
+  comments_url: String
+  owner: User
+  truncated: Boolean
+}
+
+type File {
+  filename: String
+  type: String
+  language: String
+  raw_url: String
+  size: Int
+}
+
+type Organization {
+  login: String
+  id: ID
+  node_id: String
+  url: String
+  repos_url: String
+  events_url: String
+  hooks_url: String
+  issues_url: String
+  members_url: String
+  public_members_url: String
+  avatar_url: String
+  description: String
+}
+
+type License {
+  key: String
+  name: String
+  spdx_id: String
+  url: String
+  node_id: String
+}
+
+# The "Query" type is the root of all GraphQL queries.
+# (A "Mutation" type will be covered later on.)
+type Query {
+  #books: [Book]
+  #authors: [Author]
+  users: [User] @rest(url: "https://api.github.com/users")
+  user(login: String): User @rest(url: "https://api.github.com/users")
+}
