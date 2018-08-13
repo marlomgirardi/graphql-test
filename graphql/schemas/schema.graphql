@@ -32,16 +32,16 @@ type User {
   followers: Int
   following: Int
   
-  gists: [Gist] @rest(url: "https://api.github.com/users/{login}/gists", type: "gists")        # gists_url: String
+  gists(limit: Int = 10, page: Int = 1): [Gist] @rest(url: "https://api.github.com/users/{login}/gists?per_page={limit}&page={page}", type: "gists") # gists_url: String
 
-  followingList: [User] @rest(url: "https://api.github.com/users/{login}/following")           # following_url: String
-  followersList: [User] @rest(url: "https://api.github.com/users/{login}/followers")           # followers_url: String
+  followingList(limit: Int = 10, page: Int = 1): [User] @rest(url: "https://api.github.com/users/{login}/following?per_page={limit}&page={page}") # following_url: String
+  followersList(limit: Int = 10, page: Int = 1): [User] @rest(url: "https://api.github.com/users/{login}/followers?per_page={limit}&page={page}") # followers_url: String
 
-  organizations: [Organization] @rest(url: "https://api.github.com/users/{login}/orgs")        # organizations_url: String
+  organizations(limit: Int = 10, page: Int = 1): [Organization] @rest(url: "https://api.github.com/users/{login}/orgs?per_page={limit}&page={page}") # organizations_url: String
 
-  starred: [Repository] @rest(url: "https://api.github.com/users/{login}/starred")             # starred_url: String
-  repositories: [Repository] @rest(url: "https://api.github.com/users/{login}/repos")          # repos_url: String
-  subscriptions: [Repository] @rest(url: "https://api.github.com/users/{login}/subscriptions") # subscriptions_url: String
+  starred(limit: Int = 10, page: Int = 1): [Repository] @rest(url: "https://api.github.com/users/{login}/starred?per_page={limit}&page={page}") # starred_url: String
+  repositories(limit: Int = 10, page: Int = 1): [Repository] @rest(url: "https://api.github.com/users/{login}/repos?per_page={limit}&page={page}") # repos_url: String
+  subscriptions(limit: Int = 10, page: Int = 1): [Repository] @rest(url: "https://api.github.com/users/{login}/subscriptions?per_page={limit}&page={page}") # subscriptions_url: String
 
   created_at: Date
   updated_at: Date
@@ -174,11 +174,7 @@ type License {
   node_id: String
 }
 
-# The "Query" type is the root of all GraphQL queries.
-# (A "Mutation" type will be covered later on.)
 type Query {
-  #books: [Book]
-  #authors: [Author]
-  users: [User] @rest(url: "https://api.github.com/users")
-  user(login: String): User @rest(url: "https://api.github.com/users")
+  users(limit: Int = 50, page: Int = 1): [User] @rest(url: "https://api.github.com/users?per_page={limit}&page={page}")
+  user(login: String): User @rest(url: "https://api.github.com/users/{login}")
 }
