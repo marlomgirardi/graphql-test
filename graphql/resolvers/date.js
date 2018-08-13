@@ -7,7 +7,6 @@ export default new GraphQLScalarType({
     return new Date(value); // value from the client
   },
   serialize(value) {
-    console.log(value)
     return (typeof value === 'string' ? new Date(value) : value).toISOString(); // value sent to the client
   },
   parseLiteral(ast) {

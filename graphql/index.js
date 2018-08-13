@@ -4,6 +4,7 @@ import fs from 'fs'
 import restDirective from './directives/rest'
 
 import queryResolver from './resolvers/query'
+import mutationResolver from './resolvers/mutation'
 import dateResolver from './resolvers/date'
 
 const folder = 'schemas'
@@ -23,5 +24,6 @@ export const schemaDirectives = ({
 
 export const resolvers = ({
   Query: queryResolver,
+  Mutation: mutationResolver,
   Date: dateResolver
 })

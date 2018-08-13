@@ -32,16 +32,26 @@ type User {
   followers: Int
   following: Int
   
-  gists(limit: Int = 10, page: Int = 1): [Gist] @rest(url: "https://api.github.com/users/{login}/gists?per_page={limit}&page={page}", type: "gists") # gists_url: String
+  gists(limit: Int = 10, page: Int = 1): [Gist]
+    @rest(url: "https://api.github.com/users/{login}/gists?per_page={limit}&page={page}", type: "gists") # gists_url: String
 
-  followingList(limit: Int = 10, page: Int = 1): [User] @rest(url: "https://api.github.com/users/{login}/following?per_page={limit}&page={page}") # following_url: String
-  followersList(limit: Int = 10, page: Int = 1): [User] @rest(url: "https://api.github.com/users/{login}/followers?per_page={limit}&page={page}") # followers_url: String
+  followingList(limit: Int = 10, page: Int = 1): [User]
+    @rest(url: "https://api.github.com/users/{login}/following?per_page={limit}&page={page}") # following_url: String
 
-  organizations(limit: Int = 10, page: Int = 1): [Organization] @rest(url: "https://api.github.com/users/{login}/orgs?per_page={limit}&page={page}") # organizations_url: String
+  followersList(limit: Int = 10, page: Int = 1): [User]
+    @rest(url: "https://api.github.com/users/{login}/followers?per_page={limit}&page={page}") # followers_url: String
 
-  starred(limit: Int = 10, page: Int = 1): [Repository] @rest(url: "https://api.github.com/users/{login}/starred?per_page={limit}&page={page}") # starred_url: String
-  repositories(limit: Int = 10, page: Int = 1): [Repository] @rest(url: "https://api.github.com/users/{login}/repos?per_page={limit}&page={page}") # repos_url: String
-  subscriptions(limit: Int = 10, page: Int = 1): [Repository] @rest(url: "https://api.github.com/users/{login}/subscriptions?per_page={limit}&page={page}") # subscriptions_url: String
+  organizations(limit: Int = 10, page: Int = 1): [Organization]
+    @rest(url: "https://api.github.com/users/{login}/orgs?per_page={limit}&page={page}") # organizations_url: String
+
+  starred(limit: Int = 10, page: Int = 1): [Repository]
+    @rest(url: "https://api.github.com/users/{login}/starred?per_page={limit}&page={page}") # starred_url: String
+
+  repositories(limit: Int = 10, page: Int = 1): [Repository]
+    @rest(url: "https://api.github.com/users/{login}/repos?per_page={limit}&page={page}") # repos_url: String
+
+  subscriptions(limit: Int = 10, page: Int = 1): [Repository]
+    @rest(url: "https://api.github.com/users/{login}/subscriptions?per_page={limit}&page={page}") # subscriptions_url: String
 
   created_at: Date
   updated_at: Date
@@ -174,7 +184,25 @@ type License {
   node_id: String
 }
 
+type Mutation {
+  newGist(token: String, input: GistInput): Gist!
+}
+
 type Query {
-  users(limit: Int = 50, page: Int = 1): [User] @rest(url: "https://api.github.com/users?per_page={limit}&page={page}")
-  user(login: String): User @rest(url: "https://api.github.com/users/{login}")
+  users(limit: Int = 50, page: Int = 1): [User!]!
+    @rest(url: "https://api.github.com/users?per_page={limit}&page={page}")
+
+  user(login: String): User!
+    @rest(url: "https://api.github.com/users/{login}")
+}
+
+input FileInput {
+  filename: String
+  content: String
+}
+
+input GistInput {
+  description: String,
+  public: Boolean,
+  files: [FileInput]
 }
